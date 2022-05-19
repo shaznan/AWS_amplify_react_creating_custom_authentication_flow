@@ -1,28 +1,25 @@
 import './App.css';
 import React, {useState} from 'react'
-import { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify'
+import NavigationBar from './components/navigation/NavigationBar';
+import Login from './container/Login/Login';
 
 const initialFormState = {
-  userName: "", password: "", email:"", authCode: "", formType: 'signup'
+   password: "", email:"", authCode: "", formType: 'signup'
 }
 
 
 function App() {
 const [formState, updateFormState] = useState(initialFormState)
 
-console.log(formState)
-
   const {formType} = formState
 
   const signUp = async ()=>{
     try {
-      const {userName, password, email} = formState
+      const {password, email} = formState
       const {user} = await Auth.signUp({
-        username: userName,
+        username: email,
         password,
-        // attributes:{
-        //   email,
-        // }
       })
       console.log(user)
     } catch (error) {
@@ -33,8 +30,8 @@ console.log(formState)
 
   async function confirmSignUp() {
     try {
-      const {userName, authCode} = formState
-      await Auth.confirmSignUp(userName, authCode);
+      const { authCode, email} = formState
+      await Auth.confirmSignUp(email, authCode);
     } catch (error) {
         console.log('error confirming sign up', error);
     }
@@ -43,10 +40,11 @@ console.log(formState)
 }
 
 async function signIn() {
-  const {userName, password} = formState
+  const { password, email} = formState
 
   try {
-      const user = await Auth.signIn(userName, password);
+      const user = await Auth.signIn(email, password);
+      console.log(user)
   } catch (error) {
       console.log('error signing in', error);
   }
@@ -62,12 +60,13 @@ const onChange = (e)=> {
 
   return (
     <div className="App">
+      <NavigationBar />
+      <Login />
    {
      formType === 'signup' && (
        <div>
-         <input name='userName' onChange={onChange} placeholder="username" />
-         <input name='password' onChange={onChange} placeholder="password" />
          <input name='email' onChange={onChange} placeholder="email" />
+         <input name='password' onChange={onChange} placeholder="password" />
          <button onClick={signUp}>Sign up</button>
        </div>
      )
@@ -83,9 +82,8 @@ const onChange = (e)=> {
    {
      formType === 'signin' && (
        <div>
-         <input name='username' onChange={onChange} placeholder="username" />
-         <input name='password' onChange={onChange} placeholder="password" />
          <input name='email' onChange={onChange} placeholder="email" />
+         <input name='password' onChange={onChange} placeholder="password" />
          <button onClick={signIn}>Sign In</button>
        </div>
      )
@@ -97,6 +95,7 @@ const onChange = (e)=> {
        </div>
      )
    }
+
     </div> 
   );
 }
