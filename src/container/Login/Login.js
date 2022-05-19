@@ -1,7 +1,13 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Logo from "../../components/Login/logo-01.png";
 
-export default function Login({ onClickHandler, formType, onChange }) {
+export default function Login({
+  onClickHandler,
+  formType,
+  onChange,
+  updateFormState,
+  formState,
+}) {
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -94,6 +100,20 @@ export default function Login({ onClickHandler, formType, onChange }) {
                 </span>
                 {formType}
               </button>
+            </div>
+            <div>
+              Already a user?{" "}
+              <span
+                className="hover:text-indigo-400"
+                onClick={() => {
+                  updateFormState(() => ({
+                    ...formState,
+                    formType: "signin",
+                  }));
+                }}
+              >
+                Sign In
+              </span>
             </div>
           </form>
         </div>

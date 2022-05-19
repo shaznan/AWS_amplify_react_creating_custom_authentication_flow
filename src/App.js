@@ -55,34 +55,25 @@ function App() {
 
   console.log(formState, "formState");
 
+  const props = {
+    formType,
+    onChange,
+    updateFormState,
+    formState,
+  };
+
   return (
     <div className="App">
       <NavigationBar />
-      {formType === "signup" && (
-        <Login
-          onClickHandler={signUp}
-          formType={formType}
-          onChange={onChange}
-        />
-      )}
+      {formType === "signup" && <Login {...props} onClickHandler={signUp} />}
       {formType === "confirmSignUp" && (
         <div>
-          {/* <input name='authCode' onChange={onChange} placeholder="Confirmation code" />
-         <button onClick={confirmSignUp}>Confirm signup</button> */}
-          <Login
-            onClickHandler={confirmSignUp}
-            onChange={onChange}
-            formType={formType}
-          />
+          <Login {...props} onClickHandler={confirmSignUp} />
         </div>
       )}
       {formType === "signin" && (
         <div>
-          <Login
-            onClickHandler={signIn}
-            formType={formType}
-            onChange={onChange}
-          />
+          <Login {...props} onClickHandler={signIn} />
         </div>
       )}
       {formType === "welcomeScreen" && (
