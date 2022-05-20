@@ -8,6 +8,23 @@ export default function Login({
   updateFormState,
   formState,
 }) {
+  const switchFormTypeHandler = () => {
+    if (formState.formType === "signin") {
+      updateFormState(() => ({
+        ...formState,
+        formType: "signup",
+      }));
+    }
+    if (
+      formState.formType === "signup" ||
+      formState.formType === "confirmSignUp"
+    ) {
+      updateFormState(() => ({
+        ...formState,
+        formType: "signin",
+      }));
+    }
+  };
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -105,14 +122,9 @@ export default function Login({
               Already a user?{" "}
               <span
                 className="hover:text-indigo-400"
-                onClick={() => {
-                  updateFormState(() => ({
-                    ...formState,
-                    formType: "signin",
-                  }));
-                }}
+                onClick={switchFormTypeHandler}
               >
-                Sign In
+                {formState.formType === "signin" ? "Sign up" : "Sign In"}
               </span>
             </div>
           </form>
