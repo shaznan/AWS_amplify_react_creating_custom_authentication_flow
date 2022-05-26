@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import NavigationBar from "./components/navigation/NavigationBar";
 import Login from "./container/Login/Login";
+import Fetch from "./components/Experiments/Fetch";
 
 const initialFormState = {
   password: "",
@@ -81,6 +82,7 @@ function App() {
           <h1>Hello World, Welcome User!</h1>
         </div>
       )}
+      <Fetch />
     </div>
   );
 }
